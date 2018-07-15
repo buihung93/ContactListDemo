@@ -15,6 +15,8 @@
 		AA42690A20F85053007929DF /* ContactTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA42690820F85053007929DF /* ContactTableViewCell.swift */; };
 		AA42690B20F85053007929DF /* ContactTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = AA42690920F85053007929DF /* ContactTableViewCell.xib */; };
 		AA42690D20F86066007929DF /* ContactDetailController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA42690C20F86066007929DF /* ContactDetailController.swift */; };
+		BACF264E20FBABB60076474F /* NewContactController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BACF264D20FBABB60076474F /* NewContactController.swift */; };
+		BACF265020FBB92A0076474F /* TextInputTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = BACF264F20FBB92A0076474F /* TextInputTableViewCell.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -28,6 +30,8 @@
 		AA42690820F85053007929DF /* ContactTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContactTableViewCell.swift; sourceTree = "<group>"; };
 		AA42690920F85053007929DF /* ContactTableViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = ContactTableViewCell.xib; sourceTree = "<group>"; };
 		AA42690C20F86066007929DF /* ContactDetailController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContactDetailController.swift; sourceTree = "<group>"; };
+		BACF264D20FBABB60076474F /* NewContactController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewContactController.swift; sourceTree = "<group>"; };
+		BACF264F20FBB92A0076474F /* TextInputTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TextInputTableViewCell.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -60,25 +64,43 @@
 		AA4268F420F7632E007929DF /* ContactListDemo */ = {
 			isa = PBXGroup;
 			children = (
-				AA42690720F84D38007929DF /* New Group */,
+				BACF264B20FBA9C00076474F /* Controller */,
+				AA42690720F84D38007929DF /* View */,
 				AA4268F520F7632E007929DF /* AppDelegate.swift */,
-				AA4268F720F7632E007929DF /* ViewController.swift */,
-				AA4268F920F7632E007929DF /* Main.storyboard */,
 				AA4268FC20F76332007929DF /* Assets.xcassets */,
-				AA4268FE20F76332007929DF /* LaunchScreen.storyboard */,
 				AA42690120F76332007929DF /* Info.plist */,
-				AA42690C20F86066007929DF /* ContactDetailController.swift */,
 			);
 			path = ContactListDemo;
 			sourceTree = "<group>";
 		};
-		AA42690720F84D38007929DF /* New Group */ = {
+		AA42690720F84D38007929DF /* View */ = {
+			isa = PBXGroup;
+			children = (
+				BACF264C20FBA9FA0076474F /* CustomeCell */,
+				AA4268F920F7632E007929DF /* Main.storyboard */,
+				AA4268FE20F76332007929DF /* LaunchScreen.storyboard */,
+			);
+			path = View;
+			sourceTree = "<group>";
+		};
+		BACF264B20FBA9C00076474F /* Controller */ = {
+			isa = PBXGroup;
+			children = (
+				AA4268F720F7632E007929DF /* ViewController.swift */,
+				AA42690C20F86066007929DF /* ContactDetailController.swift */,
+				BACF264D20FBABB60076474F /* NewContactController.swift */,
+			);
+			path = Controller;
+			sourceTree = "<group>";
+		};
+		BACF264C20FBA9FA0076474F /* CustomeCell */ = {
 			isa = PBXGroup;
 			children = (
 				AA42690820F85053007929DF /* ContactTableViewCell.swift */,
 				AA42690920F85053007929DF /* ContactTableViewCell.xib */,
+				BACF264F20FBB92A0076474F /* TextInputTableViewCell.swift */,
 			);
-			path = "New Group";
+			path = CustomeCell;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -154,9 +176,11 @@
 			buildActionMask = 2147483647;
 			files = (
 				AA42690A20F85053007929DF /* ContactTableViewCell.swift in Sources */,
+				BACF265020FBB92A0076474F /* TextInputTableViewCell.swift in Sources */,
 				AA4268F820F7632E007929DF /* ViewController.swift in Sources */,
 				AA4268F620F7632E007929DF /* AppDelegate.swift in Sources */,
 				AA42690D20F86066007929DF /* ContactDetailController.swift in Sources */,
+				BACF264E20FBABB60076474F /* NewContactController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

@@ -12,7 +12,7 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
     
     let list = ["Milk", "Honey", "Eggs"];
     let searchController = UISearchController(searchResultsController: nil)
-    var selectedContact = "Duong"
+    var selectedContact = "Duong";
     @IBOutlet var heightConstraint: NSLayoutConstraint!;
     @IBOutlet weak var searchBar: UISearchBar!
     @IBOutlet var contactTableView: UITableView!;
@@ -26,6 +26,10 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
         contactTableView.register(UINib(nibName: "ContactTableViewCell", bundle: nil), forCellReuseIdentifier: "contactCell")
     }
 
+    @IBAction func onAddPressed(_ sender: UIBarButtonItem) {
+        print("here");
+        self.performSegue(withIdentifier: "goToNewContact", sender: self);
+    }
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let contactCell = tableView.dequeueReusableCell(withIdentifier: "contactCell", for: indexPath) as! ContactTableViewCell;
         contactCell.textLabel?.text = list[indexPath.row];
@@ -49,7 +53,6 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
         if segue.identifier == "goToContactDetail" {
             let destinationVC = segue.destination as! ContactDetailController;
             destinationVC.contactNameText = selectedContact;
-            
         }
     }
     override func didReceiveMemoryWarning() {
