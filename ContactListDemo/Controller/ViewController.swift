@@ -7,11 +7,13 @@
 //
 
 import UIKit
+import CoreData
 
 class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSource, UISearchBarDelegate, UISearchControllerDelegate, NewContactDelegate {
 
     var listContact = [Contact]();
     let searchController = UISearchController(searchResultsController: nil)
+    let context  = (UIApplication.shared.delegate as! AppDelegate).persistentContainer.viewContext;
     var selectedContact = "";
     var selectedPhoneNumber = "";
     @IBOutlet weak var searchBar: UISearchBar!
@@ -23,6 +25,7 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
         contactTableView.delegate = self;
         contactTableView.dataSource = self;
         contactTableView.register(UINib(nibName: "ContactTableViewCell", bundle: nil), forCellReuseIdentifier: "contactCell")
+        loadContact();
     }
 
     @IBAction func onAddPressed(_ sender: UIBarButtonItem) {
@@ -40,8 +43,8 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        selectedContact = listContact[indexPath.row].name;
-        selectedPhoneNumber = listContact[indexPath.row].phoneNumber;
+        selectedContact = listContact[indexPath.row].name!;
+        selectedPhoneNumber = listContact[indexPath.row].phoneNumber!;
         performSegue(withIdentifier: "goToContactDetail", sender: self);
         tableView.deselectRow(at: indexPath, animated: true)
     }
@@ -67,12 +70,29 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
     }
     func addNewContact(success: Bool, name: String, phoneNumber: String) {
         if (success == true) {
-            print(success);
-            let newContact = Contact();
+//            let context  = (UIApplication.shared.delegate as! AppDelegate).persistentContainer.viewContext;
+            let newContact = Contact(context: context);
             newContact.name = name;
             newContact.phoneNumber = phoneNumber;
+            
+            do {
+                try context.save()
+            } catch {
+                print("Error with saving context \(error)")
+            }
+            
             self.listContact.append(newContact);
             self.contactTableView.reloadData();
+        }
+    }
+    
+    func loadContact() {
+        let request : NSFetchRequest<Contact> = Contact.fetchRequest();
+        
+        do {
+            listContact =  try context.fetch(request);
+        } catch {
+            print("Error with fetching context \(error)")
         }
     }
 
