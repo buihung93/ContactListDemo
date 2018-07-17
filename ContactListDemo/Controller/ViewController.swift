@@ -9,9 +9,10 @@
 import UIKit
 import CoreData
 
-class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSource, UISearchBarDelegate, UISearchControllerDelegate, NewContactDelegate {
+class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSource, NewContactDelegate {
 
     var listContact = [Contact]();
+    var storedContact = StoredContact();
     let searchController = UISearchController(searchResultsController: nil)
     let context  = (UIApplication.shared.delegate as! AppDelegate).persistentContainer.viewContext;
     var selectedContact = "";
@@ -25,7 +26,9 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
         contactTableView.delegate = self;
         contactTableView.dataSource = self;
         contactTableView.register(UINib(nibName: "ContactTableViewCell", bundle: nil), forCellReuseIdentifier: "contactCell")
-        loadContact();
+        storedContact.loadContact();
+        listContact = storedContact.listContact;
+        
     }
 
     @IBAction func onAddPressed(_ sender: UIBarButtonItem) {
@@ -49,12 +52,12 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
         tableView.deselectRow(at: indexPath, animated: true)
     }
     
-    func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
-        print(searchText);
-    }
+    
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if segue.identifier == "goToContactDetail" {
             let destinationVC = segue.destination as! ContactDetailController;
+            let contactDetail = ContactStruct(name: selectedContact, phoneNumber: selectedPhoneNumber)
+            destinationVC.contactDetail = contactDetail;
             destinationVC.contactNameText = selectedContact;
             destinationVC.contactPhoneNumberValue = selectedPhoneNumber;
         }
@@ -69,32 +72,20 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
         // Dispose of any resources that can be recreated.
     }
     func addNewContact(success: Bool, name: String, phoneNumber: String) {
-        if (success == true) {
-//            let context  = (UIApplication.shared.delegate as! AppDelegate).persistentContainer.viewContext;
-            let newContact = Contact(context: context);
-            newContact.name = name;
-            newContact.phoneNumber = phoneNumber;
-            
-            do {
-                try context.save()
-            } catch {
-                print("Error with saving context \(error)")
-            }
-            
-            self.listContact.append(newContact);
-            self.contactTableView.reloadData();
-        }
-    }
-    
-    func loadContact() {
-        let request : NSFetchRequest<Contact> = Contact.fetchRequest();
-        
-        do {
-            listContact =  try context.fetch(request);
-        } catch {
-            print("Error with fetching context \(error)")
-        }
+        self.storedContact.saveContact(name: name, phoneNumber: phoneNumber);
+        self.storedContact.loadContact();
+        listContact = self.storedContact.listContact;
+        self.contactTableView.reloadData();
     }
 
+}
+
+//MARK: - Search bar methods
+extension ViewController: UISearchBarDelegate {
+    func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
+        self.storedContact.searchContact(searchString: searchBar.text!);
+        listContact = self.storedContact.listContact;
+        self.contactTableView.reloadData()
+    }
 }
 

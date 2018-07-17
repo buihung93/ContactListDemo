@@ -14,12 +14,18 @@ class ViewCell: UITableViewCell {
     @IBOutlet weak var phoneNumerLabel: UILabel!
 }
 
-class ContactDetailController: UIViewController, UITableViewDelegate, UITableViewDataSource {
+protocol ContactDetailDelegate {
+    func reloadContact();
+}
+
+class ContactDetailController: UIViewController, UITableViewDelegate, UITableViewDataSource, EditContactDelegate {
     
     
     
     var contactNameText : String?
     var contactPhoneNumberValue : String?
+    var contactDetail : ContactStruct?;
+    var isUpdated = false;
     @IBOutlet weak var contactName: UILabel!;
     
     @IBOutlet weak var avatarLabel: UILabel!
@@ -29,8 +35,8 @@ class ContactDetailController: UIViewController, UITableViewDelegate, UITableVie
         // Do any additional setup after loading the view, typically from a nib.
         infoTableView.delegate = self;
         infoTableView.dataSource = self;
-        contactName.text = contactNameText;
-        avatarLabel.text = String((contactNameText?.first)!);
+        contactName.text = contactDetail?.name;
+        avatarLabel.text = String((contactDetail?.name.first)!);
         avatarLabel.layer.masksToBounds = true;
         avatarLabel.layer.cornerRadius = 50;
     }
@@ -43,7 +49,7 @@ class ContactDetailController: UIViewController, UITableViewDelegate, UITableVie
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         if indexPath.row == 0 {
             let cell = tableView.dequeueReusableCell(withIdentifier: "homePhoneCell", for: indexPath) as! ViewCell;
-            cell.phoneNumerLabel.text = contactPhoneNumberValue;
+            cell.phoneNumerLabel.text = contactDetail?.phoneNumber;
             cell.selectionStyle = .none;
             return cell;
         } else if indexPath.row == 1 {
@@ -68,6 +74,23 @@ class ContactDetailController: UIViewController, UITableViewDelegate, UITableVie
     @IBAction func onBackPressed(_ sender: Any) {
         dismiss(animated: true, completion: nil)
 
+    }
+    @IBAction func editButtonPressed(_ sender: UIBarButtonItem) {
+        performSegue(withIdentifier: "goToEdit", sender: self);
+    }
+    
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        if segue.identifier == "goToEdit" {
+            let destinationVC = segue.destination as! EditContactController;
+            destinationVC.originalContact = contactDetail;
+            destinationVC.delegate = self;
+        }
+    }
+    func updateContact(newContactDetail: ContactStruct) {
+        contactDetail = newContactDetail;
+        contactName.text = newContactDetail.name;
+        avatarLabel.text = String((newContactDetail.name.first)!);
+        isUpdated = true;
     }
     
 }
