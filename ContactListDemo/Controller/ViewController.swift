@@ -9,7 +9,7 @@
 import UIKit
 import CoreData
 
-class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSource, NewContactDelegate {
+class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSource, NewContactDelegate, EditContactDelegate {
 
     var listContact = [Contact]();
     var storedContact = StoredContact();
@@ -30,7 +30,10 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
         listContact = storedContact.listContact;
         
     }
-
+    override func viewWillAppear(_ animated: Bool) {
+        listContact = storedContact.listContact;
+        self.contactTableView.reloadData()
+    }
     @IBAction func onAddPressed(_ sender: UIBarButtonItem) {
         self.performSegue(withIdentifier: "goToNewContact", sender: self);
     }
@@ -77,6 +80,19 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
         listContact = self.storedContact.listContact;
         self.contactTableView.reloadData();
     }
+    
+    func updateContact(newContactDetail: ContactStruct) {
+        
+    }
+    
+    
+    func updateContactSuccess(isSuccessed: Bool) {
+        print("ahhahahahah");
+        if (isSuccessed) {
+            listContact = self.storedContact.listContact;
+            self.contactTableView.reloadData()
+        }
+    }
 
 }
 
@@ -88,4 +104,3 @@ extension ViewController: UISearchBarDelegate {
         self.contactTableView.reloadData()
     }
 }
-

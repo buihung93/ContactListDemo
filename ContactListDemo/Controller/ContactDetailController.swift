@@ -20,8 +20,6 @@ protocol ContactDetailDelegate {
 
 class ContactDetailController: UIViewController, UITableViewDelegate, UITableViewDataSource, EditContactDelegate {
     
-    
-    
     var contactNameText : String?
     var contactPhoneNumberValue : String?
     var contactDetail : ContactStruct?;
@@ -90,7 +88,7 @@ class ContactDetailController: UIViewController, UITableViewDelegate, UITableVie
         contactDetail = newContactDetail;
         contactName.text = newContactDetail.name;
         avatarLabel.text = String((newContactDetail.name.first)!);
-        isUpdated = true;
+        self.infoTableView.reloadData();
     }
     
 }
